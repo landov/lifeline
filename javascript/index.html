@@ -12,13 +12,14 @@
     <div class="mainDiv">
         <div>
             <h4>LIFE Line</h4>
+            <p>Use the mouse to draw the initial population or click random.</p>
             <canvas id="lifeCanvas" class="lifeCanvas" width="512" height="512">
             </canvas>
         </div>
         <div>
-            <button type="button">Start</button><br>
-            <button type="button">Random</button><br>
-            <button type="button">Clear</button><br>
+            <button id="startBtn" type="button">Start</button><br>
+            <button id="randomBtn" type="button">Random</button><br>
+            <button id="clearBtn" type="button">Clear</button><br>
 
         </div>
         <div style="clear: left;">
@@ -34,7 +35,8 @@
             </p>
         </div>
     </div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="./lifeline.js"></script>
 </body>
 
 </html>
