@@ -1,0 +1,60 @@
+
+* {
+    box-sizing: border-box
+} 
+
+a {
+    color: lightskyblue;
+}
+
+body {
+    background-image: linear-gradient(to right, #3d3d5c, #33334d);
+    height: 100%;
+    font-family: 'Dosis';
+    font-size: 1.2em;
+    color: white;
+    margin: 2px
+}
+
+button {
+    background-color: #e6f3ff;
+    font-family: 'Dosis';
+    font-size: 1em;
+    padding: 5px;
+    border: 1px solid #e6f3ff;
+    border-radius: 5px;
+    margin-top: 3px;
+    color: #33334d;
+    text-shadow: 0px 0px 1px #666699;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #fff5cc;
+    box-shadow: 0px 0px 3px #fff5cc;
+}
+
+div{
+    float: top;
+}
+
+h4 {
+    font-size: 2em;
+    color: lightskyblue;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    text-align: center;
+}
+
+div.mainDiv {
+    max-width: 514px;
+    margin: auto;
+}
+
+.lifeCanvas {
+    background-color: black;
+    outline: 1px solid yellow;
+    cursor: crosshair;
+    float: left;
+    
+}
