@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>LIFE Line</title>
+    <link rel="stylesheet" type="text/css" href="./life.css">
+    <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <div>
+            <h4>LIFE Line</h4>
+            <p>Use the mouse to draw the initial population or click random.</p>
+            <canvas id="lifeCanvas" class="lifeCanvas" width="512" height="512">
+            </canvas>
+        </div>
+        <div>
+            <button id="startBtn" type="button">Start</button><br>
+            <button id="randomBtn" type="button">Random</button><br>
+            <button id="clearBtn" type="button">Clear</button><br>
+
+        </div>
+        <div style="clear: left;">
+            <p>
+                Javascript version of a program presented by Carl Helmer in Byte Magazine
+                in 1975/76.
+            </p>
+            <p>The magazines at archive.org:<br>
+                <a href="https://archive.org/details/sim_byte_1975-09_1_1">https://archive.org/details/sim_byte_1975-09_1_1</a><br>
+                <a href="https://archive.org/details/sim_byte_1975-10_1_2">https://archive.org/details/sim_byte_1975-10_1_2</a><br>
+                <a href="https://archive.org/details/sim_byte_1975-10_1_2">https://archive.org/details/sim_byte_1975-12_1_4</a><br>
+                <a href="https://archive.org/details/sim_byte_1976-01_1_5">https://archive.org/details/sim_byte_1976-01_1_5</a><br>
+                    Source on GitHub:<br>
+                <a href="https://github.com/landov/lifeline">https://github.com/landov/lifeline</a><br>
+            </p>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="./lifeline.js"></script>
+</body>
+
+</html>
