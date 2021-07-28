@@ -110,7 +110,7 @@ function startStop() {
       started = !started;
       if (started) {
           startBtn.html("Stop");
-          evalInterval = window.setInterval(evalLife, 250);
+          evalInterval = window.setInterval(evalLife, 200);
       } else {
           startBtn.html("Start");
           window.clearInterval(evalInterval);
