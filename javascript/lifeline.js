@@ -10,25 +10,25 @@ var evalInterval;
 const matrixSize = 128;
 const cellSize = 4;
 
-//Creates an empty array of array 64 by 64
+//Creates an empty array of array 
 function createArray() {
-    tempArray = new Array(matrixSize-1);
-    for (let i = 0; i < matrixSize; i++) {
-        tempArray[i] = new Array(matrixSize);
+    tempArray = new Array(matrixSize + 2);
+    for (let i = 0; i <= matrixSize + 1; i++) {
+        tempArray[i] = new Array(matrixSize + 2);
     }
     return tempArray;
 }
 
 //Updates the canvas
 function drawLife() {
-    for (let x = 0; x < matrixSize; x++) {
-        for (let y = 0; y < matrixSize; y++) {
+    for (let x = 1; x <= matrixSize; x++) {
+        for (let y = 1; y <= matrixSize; y++) {
             if (matrix[x][y]) {
                 ctx.fillStyle = "lime";
             } else {
                 ctx.fillStyle = "black";
             }
-            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+            ctx.fillRect((x - 1) * cellSize, (y - 1) * cellSize, cellSize, cellSize);
         }
     }
 }
@@ -37,8 +37,8 @@ function drawLife() {
 function randomLife() {
     console.log("Random");
     d = new Date();
-    for (let x = 0; x < matrixSize; x++) {
-        for (let y = 0; y < matrixSize; y++) {
+    for (let x = 1; x <= matrixSize; x++) {
+        for (let y = 1; y <= matrixSize; y++) {
             matrix[x][y] = Math.floor(Math.random() * 2);
             //
         }
@@ -48,8 +48,8 @@ function randomLife() {
 
 //Clears the matrix
 function clearLife() {
-    for (let x = 0; x < matrixSize; x++) {
-        for (let y = 0; y < matrixSize; y++) {
+    for (let x = 1; x <= matrixSize; x++) {
+        for (let y = 1; y <= matrixSize; y++) {
             matrix[x][y] = 0;
             //
         }
@@ -62,15 +62,13 @@ function clearLife() {
 function evalLife() {
     console.log("Evaluating");
     var nextMatrix = createArray();
-    for (let x = 0; x < matrixSize; x++) {
-        for (let y = 0; y < matrixSize; y++) {
+    for (let x = 1; x <= matrixSize; x++) {
+        for (let y = 1; y <= matrixSize; y++) {
             let status = 0;
             for (let i = x - 1; i <= x + 1; i++) {
                 for (let j = y - 1; j <= y + 1; j++) {
-                    if (matrix[i]) {
-                        if (matrix[i][j]) {
-                            status++;
-                        }
+                    if (matrix[i][j]) {
+                        status++;
                     }
                 }
             }
@@ -99,14 +97,14 @@ function evalLife() {
 //Starts or stops the simulation
 function startStop() {
 
-      started = !started;
-      if (started) {
-          startBtn.html("Stop");
-          evalInterval = window.setInterval(evalLife, 200);
-      } else {
-          startBtn.html("Start");
-          window.clearInterval(evalInterval);
-      }
+    started = !started;
+    if (started) {
+        startBtn.html("Stop");
+        evalInterval = window.setInterval(evalLife, 200);
+    } else {
+        startBtn.html("Start");
+        window.clearInterval(evalInterval);
+    }
     //evalLife();
 }
 
