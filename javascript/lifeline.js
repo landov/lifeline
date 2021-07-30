@@ -7,26 +7,28 @@ var randomBtn;          //Reference to the randomizer button
 var clearBtn;           //Reference to the clear button
 var started = false;    //Indicates that the simulation runs
 var evalInterval;
+const matrixSize = 128;
+const cellSize = 4;
 
 //Creates an empty array of array 64 by 64
 function createArray() {
-    tempArray = new Array(63);
-    for (let i = 0; i < 64; i++) {
-        tempArray[i] = new Array(63);
+    tempArray = new Array(matrixSize-1);
+    for (let i = 0; i < matrixSize; i++) {
+        tempArray[i] = new Array(matrixSize);
     }
     return tempArray;
 }
 
 //Updates the canvas
 function drawLife() {
-    for (let x = 0; x < 64; x++) {
-        for (let y = 0; y < 64; y++) {
+    for (let x = 0; x < matrixSize; x++) {
+        for (let y = 0; y < matrixSize; y++) {
             if (matrix[x][y]) {
                 ctx.fillStyle = "lime";
             } else {
                 ctx.fillStyle = "black";
             }
-            ctx.fillRect(x * 8, y * 8, 8, 8);
+            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
         }
     }
 }
@@ -35,8 +37,8 @@ function drawLife() {
 function randomLife() {
     console.log("Random");
     d = new Date();
-    for (let x = 0; x < 64; x++) {
-        for (let y = 0; y < 64; y++) {
+    for (let x = 0; x < matrixSize; x++) {
+        for (let y = 0; y < matrixSize; y++) {
             matrix[x][y] = Math.floor(Math.random() * 2);
             //
         }
@@ -46,8 +48,8 @@ function randomLife() {
 
 //Clears the matrix
 function clearLife() {
-    for (let x = 0; x < 64; x++) {
-        for (let y = 0; y < 64; y++) {
+    for (let x = 0; x < matrixSize; x++) {
+        for (let y = 0; y < matrixSize; y++) {
             matrix[x][y] = 0;
             //
         }
@@ -55,22 +57,13 @@ function clearLife() {
     drawLife();
 }
 
-//Evalcell
-function evalCell(x, y) {
-    if (matrix[x][y]) {
-        matrix[x][y] = 0;
-    } else {
-        matrix[x][y] = 1;
-    }
-
-}
 
 //Evaluating the current matrix and creates the next
 function evalLife() {
     console.log("Evaluating");
     var nextMatrix = createArray();
-    for (let x = 0; x < 64; x++) {
-        for (let y = 0; y < 64; y++) {
+    for (let x = 0; x < matrixSize; x++) {
+        for (let y = 0; y < matrixSize; y++) {
             let status = 0;
             for (let i = x - 1; i <= x + 1; i++) {
                 for (let j = y - 1; j <= y + 1; j++) {
@@ -97,7 +90,6 @@ function evalLife() {
                     nextMatrix[x][y] = 0;
                 }
             }
-           // console.log(x, y, status);
         }
     }
     matrix = nextMatrix;
