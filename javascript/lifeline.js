@@ -113,12 +113,9 @@ function setCell(canvas, event) {
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
-    console.log(x);
     x = Math.floor(x / cellSize) + 1
     y = Math.floor(y / cellSize) + 1;
     matrix[x][y] = 1;
-    $("#xCoord").html(x);
-    $("#yCoord").html(y);
     drawLife();
 }
 
