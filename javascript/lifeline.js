@@ -6,9 +6,11 @@ var startBtn;           //Reference to the start/stop buton
 var randomBtn;          //Reference to the randomizer button
 var clearBtn;           //Reference to the clear button
 var started = false;    //Indicates that the simulation runs
+var isMouseDown = false;
 var evalInterval;
 const matrixSize = 128;
 const cellSize = 4;
+
 
 //Creates an empty array of array 
 function createArray() {
@@ -96,7 +98,6 @@ function evalLife() {
 
 //Starts or stops the simulation
 function startStop() {
-
     started = !started;
     if (started) {
         startBtn.html("Stop");
@@ -105,8 +106,32 @@ function startStop() {
         startBtn.html("Start");
         window.clearInterval(evalInterval);
     }
-    //evalLife();
 }
+
+///---------------- Drawing functions
+function setCell(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    console.log(x);
+    x = Math.floor(x / cellSize) + 1
+    y = Math.floor(y / cellSize) + 1;
+    matrix[x][y] = 1;
+    $("#xCoord").html(x);
+    $("#yCoord").html(y);
+    drawLife();
+}
+
+//
+function mouseDown(canvas, event) {
+    isMouseDown = true;
+    setCell(canvas, event);
+}
+
+function mouseMove(canvas, event) {
+    if (isMouseDown) { setCell(canvas, event) };
+}
+//---------------------------------------------------------
 
 
 //Initialization
@@ -119,5 +144,18 @@ window.onload = function () {
     clearBtn.on("click", clearLife);
     startBtn = $("#startBtn");
     startBtn.on("click", startStop);
+    ctx.canvas.addEventListener("mousedown", function (e) {
+        isMouseDown = true;
+        setCell(ctx.canvas, e);
+    });
+    ctx.canvas.addEventListener("mousemove", function (e) {
+        if (isMouseDown) { setCell(ctx.canvas, e) };
+    });
+    ctx.canvas.addEventListener("mouseup", function (e) {
+       isMouseDown = false;
+    });
+    ctx.canvas.addEventListener("mouseout", function (e) {
+        isMouseDown = false;
+     });
 }
 
