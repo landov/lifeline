@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
-var matrix;             //Array of array 64 by 64 stores cell staus
+var matrix;             //Array of array stores cell staus
+var nextMatrix;         //Array of array stores cell staus for next generation
 var ctx;                //Canvas context
 var startBtn;           //Reference to the start/stop buton
 var randomBtn;          //Reference to the randomizer button
@@ -50,46 +51,45 @@ function randomLife() {
 
 //Clears the matrix
 function clearLife() {
-    for (let x = 1; x <= matrixSize; x++) {
-        for (let y = 1; y <= matrixSize; y++) {
-            matrix[x][y] = 0;
-            //
-        }
-    }
+    matrix = createArray();
     drawLife();
 }
 
+//Evaulating the status of a single cell
+function evalCell(x,y) {
+    let status = 0;
+    for (let i = x - 1; i <= x + 1; i++) {
+        for (let j = y - 1; j <= y + 1; j++) {
+            if (matrix[i][j]) {
+                status++;
+            }
+        }
+    }
+    if (matrix[x][y]) {
+        status = status - 1;
+        if (status < 2) {
+            nextMatrix[x][y] = 0;
+        } else if (status < 4) {
+            nextMatrix[x][y] = 1;
+        } else {
+            nextMatrix[x][y] = 0;
+        }
+    } else {
+        if (status == 3) {
+            nextMatrix[x][y] = 1;
+        } else {
+            nextMatrix[x][y] = 0;
+        }
+    }
+}
 
 //Evaluating the current matrix and creates the next
 function evalLife() {
     console.log("Evaluating");
-    var nextMatrix = createArray();
+    nextMatrix = createArray();
     for (let x = 1; x <= matrixSize; x++) {
         for (let y = 1; y <= matrixSize; y++) {
-            let status = 0;
-            for (let i = x - 1; i <= x + 1; i++) {
-                for (let j = y - 1; j <= y + 1; j++) {
-                    if (matrix[i][j]) {
-                        status++;
-                    }
-                }
-            }
-            if (matrix[x][y]) {
-                status = status - 1;
-                if (status < 2) {
-                    nextMatrix[x][y] = 0;
-                } else if (status < 4) {
-                    nextMatrix[x][y] = 1;
-                } else {
-                    nextMatrix[x][y] = 0;
-                }
-            } else {
-                if (status == 3) {
-                    nextMatrix[x][y] = 1;
-                } else {
-                    nextMatrix[x][y] = 0;
-                }
-            }
+            evalCell(x,y);
         }
     }
     matrix = nextMatrix;
@@ -149,10 +149,10 @@ window.onload = function () {
         if (isMouseDown) { setCell(ctx.canvas, e) };
     });
     ctx.canvas.addEventListener("mouseup", function (e) {
-       isMouseDown = false;
+        isMouseDown = false;
     });
     ctx.canvas.addEventListener("mouseout", function (e) {
         isMouseDown = false;
-     });
+    });
 }
 
