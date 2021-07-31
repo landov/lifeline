@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
-var matrix;             //Array of array 64 by 64 stores cell staus
+var matrix;             //Array of array stores cell staus
+var nextMatrix;         //Array of array stores cell staus for next generation
 var ctx;                //Canvas context
 var startBtn;           //Reference to the start/stop buton
 var randomBtn;          //Reference to the randomizer button
@@ -50,46 +51,45 @@ function randomLife() {
 
 //Clears the matrix
 function clearLife() {
-    for (let x = 1; x <= matrixSize; x++) {
-        for (let y = 1; y <= matrixSize; y++) {
-            matrix[x][y] = 0;
-            //
-        }
-    }
+    matrix = createArray();
     drawLife();
 }
 
+//Evaulating the status of a single cell
+function evalCell(x,y) {
+    let status = 0;
+    for (let i = x - 1; i <= x + 1; i++) {
+        for (let j = y - 1; j <= y + 1; j++) {
+            if (matrix[i][j]) {
+                status++;
+            }
+        }
+    }
+    if (matrix[x][y]) {
+        status = status - 1;
+        if (status < 2) {
+            nextMatrix[x][y] = 0;
+        } else if (status < 4) {
+            nextMatrix[x][y] = 1;
+        } else {
+            nextMatrix[x][y] = 0;
+        }
+    } else {
+        if (status == 3) {
+            nextMatrix[x][y] = 1;
+        } else {
+            nextMatrix[x][y] = 0;
+        }
+    }
+}
 
 //Evaluating the current matrix and creates the next
 function evalLife() {
     console.log("Evaluating");
-    var nextMatrix = createArray();
+    nextMatrix = createArray();
     for (let x = 1; x <= matrixSize; x++) {
         for (let y = 1; y <= matrixSize; y++) {
-            let status = 0;
-            for (let i = x - 1; i <= x + 1; i++) {
-                for (let j = y - 1; j <= y + 1; j++) {
-                    if (matrix[i][j]) {
-                        status++;
-                    }
-                }
-            }
-            if (matrix[x][y]) {
-                status = status - 1;
-                if (status < 2) {
-                    nextMatrix[x][y] = 0;
-                } else if (status < 4) {
-                    nextMatrix[x][y] = 1;
-                } else {
-                    nextMatrix[x][y] = 0;
-                }
-            } else {
-                if (status == 3) {
-                    nextMatrix[x][y] = 1;
-                } else {
-                    nextMatrix[x][y] = 0;
-                }
-            }
+            evalCell(x,y);
         }
     }
     matrix = nextMatrix;
@@ -109,8 +109,8 @@ function startStop() {
 }
 
 ///---------------- Drawing functions
-function setCell(canvas, event) {
-    let rect = canvas.getBoundingClientRect();
+function setCell(event) {
+    let rect = ctx.canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     x = Math.floor(x / cellSize) + 1
@@ -120,13 +120,13 @@ function setCell(canvas, event) {
 }
 
 //
-function mouseDown(canvas, event) {
+function mouseDown(event) {
     isMouseDown = true;
-    setCell(canvas, event);
+    setCell(ctx.canvas, event);
 }
 
-function mouseMove(canvas, event) {
-    if (isMouseDown) { setCell(canvas, event) };
+function mouseMove(event) {
+    if (isMouseDown) { setCell(ctx.canvas, event) };
 }
 //---------------------------------------------------------
 
@@ -143,16 +143,16 @@ window.onload = function () {
     startBtn.on("click", startStop);
     ctx.canvas.addEventListener("mousedown", function (e) {
         isMouseDown = true;
-        setCell(ctx.canvas, e);
+        setCell(e);
     });
     ctx.canvas.addEventListener("mousemove", function (e) {
-        if (isMouseDown) { setCell(ctx.canvas, e) };
+        if (isMouseDown) { setCell(e) };
     });
     ctx.canvas.addEventListener("mouseup", function (e) {
-       isMouseDown = false;
+        isMouseDown = false;
     });
     ctx.canvas.addEventListener("mouseout", function (e) {
         isMouseDown = false;
-     });
+    });
 }
 
