@@ -9,7 +9,7 @@ var clearBtn;           //Reference to the clear button
 var started = false;    //Indicates that the simulation runs
 var isMouseDown = false;
 var evalInterval;
-const matrixSize = 128;
+var matrixSize = 128;
 const cellSize = 4;
 
 
@@ -133,8 +133,15 @@ function mouseMove(event) {
 
 //Initialization
 window.onload = function () {
+    // Get the canvas
     ctx = document.getElementById("lifeCanvas").getContext("2d");
+    //Set size, depending on screen width
+    matrixSize=Math.floor((screen.width-2)/cellSize);
+    if (matrixSize>128) {matrixSize = 128;}
     matrix = createArray();
+    ctx.canvas.width = matrixSize * cellSize;
+    ctx.canvas.height = matrixSize * cellSize;
+    //Assign events
     randomBtn = $("#randomBtn");
     randomBtn.on("click", randomLife);
     clearBtn = $("#clearBtn");
@@ -154,5 +161,8 @@ window.onload = function () {
     ctx.canvas.addEventListener("mouseout", function (e) {
         isMouseDown = false;
     });
+    
+
+
 }
 
