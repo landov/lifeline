@@ -109,8 +109,8 @@ function startStop() {
 }
 
 ///---------------- Drawing functions
-function setCell(canvas, event) {
-    let rect = canvas.getBoundingClientRect();
+function setCell(event) {
+    let rect = ctx.canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     x = Math.floor(x / cellSize) + 1
@@ -120,13 +120,13 @@ function setCell(canvas, event) {
 }
 
 //
-function mouseDown(canvas, event) {
+function mouseDown(event) {
     isMouseDown = true;
-    setCell(canvas, event);
+    setCell(ctx.canvas, event);
 }
 
-function mouseMove(canvas, event) {
-    if (isMouseDown) { setCell(canvas, event) };
+function mouseMove(event) {
+    if (isMouseDown) { setCell(ctx.canvas, event) };
 }
 //---------------------------------------------------------
 
@@ -143,10 +143,10 @@ window.onload = function () {
     startBtn.on("click", startStop);
     ctx.canvas.addEventListener("mousedown", function (e) {
         isMouseDown = true;
-        setCell(ctx.canvas, e);
+        setCell(e);
     });
     ctx.canvas.addEventListener("mousemove", function (e) {
-        if (isMouseDown) { setCell(ctx.canvas, e) };
+        if (isMouseDown) { setCell(e) };
     });
     ctx.canvas.addEventListener("mouseup", function (e) {
         isMouseDown = false;
